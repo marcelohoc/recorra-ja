@@ -15,9 +15,13 @@
   }
   function reais(v) { return "R$ " + Number(v).toLocaleString("pt-BR", { minimumFractionDigits: 0 }); }
   function soDigitos(s) { return String(s || "").replace(/\D/g, ""); }
+  // Sem WhatsApp configurado, o contato cai no e-mail para nenhum lead se perder.
+  var CANAL = C.whatsapp ? "WhatsApp" : "e-mail";
   function linkWhats(msg) {
-    if (!C.whatsapp) return null;
-    return "https://wa.me/" + soDigitos(C.whatsapp) + "?text=" + encodeURIComponent(msg);
+    if (C.whatsapp) return "https://wa.me/" + soDigitos(C.whatsapp) + "?text=" + encodeURIComponent(msg);
+    var email = (C.empresa || {}).email;
+    if (!email) return null;
+    return "mailto:" + email + "?subject=" + encodeURIComponent("Recorra Já — análise de multa") + "&body=" + encodeURIComponent(msg);
   }
   function guardar(chave, valor) { try { sessionStorage.setItem(chave, JSON.stringify(valor)); } catch (e) {} }
   function ler(chave) { try { return JSON.parse(sessionStorage.getItem(chave)); } catch (e) { return null; } }
@@ -228,8 +232,8 @@
     $("painel-resultado").innerHTML = '<div class="resultado">' +
       "<h2>Recebemos seu pedido</h2>" +
       "<p>" + esc(erro || "Nossa análise automática está com muita demanda agora.") + "</p>" +
-      (w ? "<p>Para não perder seu prazo, envie a foto da notificação no WhatsApp e um especialista faz sua análise grátis.</p>" +
-        '<a class="btn btn-whats btn-lg btn-bloco" target="_blank" rel="noopener" href="' + esc(w) + '">Enviar no WhatsApp</a>'
+      (w ? "<p>Para não perder seu prazo, envie a foto da notificação por " + CANAL + " e um especialista faz sua análise grátis.</p>" +
+        '<a class="btn btn-whats btn-lg btn-bloco" target="_blank" rel="noopener" href="' + esc(w) + '">Enviar por ' + CANAL + '</a>'
         : '<p>Um especialista vai te chamar no WhatsApp informado.</p>') +
       '<p class="nota"><a href="#" id="tentar-de-novo">Tentar a análise automática de novo</a></p></div>';
     painel("painel-resultado");
@@ -301,7 +305,7 @@
       (semPontos ? " <b>Como não encontramos vício formal, a defesa será de mérito; fale com a gente antes de contratar.</b>" : "") + "</p>" +
       '<div class="acoes">' +
       (refLink && !semPontos ? '<a class="btn btn-lg btn-bloco" id="btn-pagar" href="' + esc(refLink) + '" target="_blank" rel="noopener">Quero minha defesa</a>' : "") +
-      (w ? '<a class="btn ' + (refLink && !semPontos ? "btn-sec" : "btn-whats btn-lg") + ' btn-bloco" id="btn-whats" href="' + esc(w) + '" target="_blank" rel="noopener">' + (refLink && !semPontos ? "Tirar dúvidas no WhatsApp" : "Contratar pelo WhatsApp") + "</a>" : "") +
+      (w ? '<a class="btn ' + (refLink && !semPontos ? "btn-sec" : "btn-whats btn-lg") + ' btn-bloco" id="btn-whats" href="' + esc(w) + '" target="_blank" rel="noopener">' + (refLink && !semPontos ? "Tirar dúvidas por " + CANAL : "Contratar por " + CANAL) + "</a>" : "") +
       (!refLink && !w ? '<p>Um especialista vai te chamar no WhatsApp ' + esc(dados.whatsapp) + " para finalizar.</p>" : "") +
       "</div></div>";
 
