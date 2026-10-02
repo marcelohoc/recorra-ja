@@ -4,7 +4,9 @@ window.RECORRA_CONFIG = {
 
   // URL do webhook de produção do n8n (workflow "Recorra Já — Diagnóstico de multa com IA").
   // Vazio = o formulário manda o pedido direto para o WhatsApp (modo sem IA).
-  webhookUrl: "https://n8n.olimpoit.com.br/webhook/recorra-ja/diagnostico",
+  // TESTE: URL de teste do n8n (só responde com o editor em "Listen for test event").
+  // Depois de ativar o workflow, volte para https://n8n.olimpoit.com.br/webhook/recorra-ja/diagnostico
+  webhookUrl: "https://n8n.olimpoit.com.br/webhook-test/recorra-ja/diagnostico",
 
   // WhatsApp de atendimento, só números com DDI e DDD (ex.: 5511999998888).
   whatsapp: "",
