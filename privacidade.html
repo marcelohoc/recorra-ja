@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Política de privacidade — Recorra Já</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="config.js"></script>
+</head>
+<body>
+<header class="topo"><div class="wrap topo-in"><a class="logo" href="index.html">Recorra Já</a><a class="btn btn-sm" href="index.html#analisar">Analisar grátis</a></div></header>
+<main class="legal"><div class="wrap estreito">
+  <h1>Política de privacidade</h1>
+  <p class="muted">Última atualização: 02/10/2026</p>
+
+  <h2>1. Quem trata seus dados</h2>
+  <p>O controlador dos dados é <span class="emp-nome">[razão social]</span>, <span class="emp-cnpj">[CNPJ]</span>. Encarregado (DPO) e canal para exercer seus direitos: <span class="emp-email">[e-mail]</span>.</p>
+
+  <h2>2. Quais dados coletamos</h2>
+  <ul>
+    <li><b>Dados que você informa:</b> nome, WhatsApp, e-mail, estado, situação da CNH e o relato do ocorrido.</li>
+    <li><b>Documento enviado:</b> a imagem ou PDF da notificação, que pode conter placa, dados do veículo, nome, CPF, endereço e número da CNH.</li>
+    <li><b>Dados de navegação:</b> parâmetros de campanha (UTM) e, se ativado, eventos do Meta Pixel para medir anúncios.</li>
+  </ul>
+
+  <h2>3. Para que usamos</h2>
+  <ul>
+    <li>Analisar a sua notificação e gerar o diagnóstico (base legal: procedimentos preliminares a contrato, a pedido do titular — art. 7º, V, da LGPD);</li>
+    <li>Elaborar e entregar a defesa contratada (execução de contrato — art. 7º, V);</li>
+    <li>Falar com você sobre o seu caso pelo WhatsApp ou e-mail (execução de contrato e legítimo interesse — art. 7º, IX);</li>
+    <li>Cumprir obrigações legais e fiscais (art. 7º, II).</li>
+  </ul>
+  <p>Não vendemos seus dados e não os usamos para outras finalidades.</p>
+
+  <h2>4. Com quem compartilhamos</h2>
+  <ul>
+    <li><b>Provedor de inteligência artificial</b> (Anthropic), que processa o documento para gerar o diagnóstico, sob contrato que proíbe o uso dos dados para treinar modelos;</li>
+    <li><b>Provedores de infraestrutura</b> (hospedagem, automação e e-mail) estritamente para operar o serviço;</li>
+    <li><b>Intermediadores de pagamento</b>, quando você contrata;</li>
+    <li><b>Meta</b>, somente eventos de navegação se o Pixel estiver ativo.</li>
+  </ul>
+  <p>Alguns desses provedores ficam fora do Brasil; a transferência internacional segue o art. 33 da LGPD.</p>
+
+  <h2>5. Por quanto tempo guardamos</h2>
+  <p>Diagnósticos não contratados: até 90 dias. Casos contratados: pelo tempo do processo administrativo e pelos prazos legais de guarda fiscal e de defesa em eventuais demandas. Depois disso, os dados são excluídos ou anonimizados.</p>
+
+  <h2>6. Seus direitos</h2>
+  <p>Você pode pedir a qualquer momento: confirmação e acesso aos dados, correção, anonimização ou exclusão, portabilidade, informação sobre compartilhamentos e revogação do consentimento (art. 18 da LGPD). Basta escrever para <span class="emp-email">[e-mail]</span>.</p>
+
+  <h2>7. Segurança</h2>
+  <p>Os dados trafegam por conexão criptografada (HTTPS) e o acesso é restrito às pessoas que atendem o seu caso.</p>
+</div></main>
+<footer class="rodape"><div class="wrap"><p><a href="index.html">Voltar ao início</a> · <a href="termos.html">Termos de uso</a></p></div></footer>
+<script>
+  (function () {
+    var e = (window.RECORRA_CONFIG || {}).empresa || {};
+    function set(cls, v) { document.querySelectorAll(cls).forEach(function (el) { if (v) el.textContent = v; }); }
+    set(".emp-nome", e.razaoSocial); set(".emp-cnpj", e.cnpj ? "CNPJ " + e.cnpj : ""); set(".emp-email", e.email);
+  })();
+</script>
+</body>
+</html>

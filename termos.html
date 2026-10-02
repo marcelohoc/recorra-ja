@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Termos de uso — Recorra Já</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="config.js"></script>
+</head>
+<body>
+<header class="topo"><div class="wrap topo-in"><a class="logo" href="index.html">Recorra Já</a><a class="btn btn-sm" href="index.html#analisar">Analisar grátis</a></div></header>
+<main class="legal"><div class="wrap estreito">
+  <h1>Termos de uso</h1>
+  <p class="muted">Última atualização: 02/10/2026</p>
+
+  <h2>1. O que é o Recorra Já</h2>
+  <p>O Recorra Já é um serviço privado que analisa notificações de trânsito e elabora defesas e recursos administrativos (defesa prévia, recurso à JARI, recurso ao CETRAN/2ª instância e defesas em processos de suspensão do direito de dirigir). Responsável: <span class="emp-nome">[razão social]</span>, <span class="emp-cnpj">[CNPJ]</span>.</p>
+  <p><b>Não somos órgão público</b> e não temos qualquer vínculo com Detran, DER, DNIT, PRF, prefeituras, SENATRAN ou CONTRAN. <b>Não somos escritório de advocacia</b> e não prestamos consultoria jurídica nem representação judicial. A defesa e os recursos administrativos de trânsito podem ser apresentados pelo próprio condutor ou proprietário, sem advogado.</p>
+
+  <h2>2. Diagnóstico gratuito</h2>
+  <p>O diagnóstico é gerado com auxílio de inteligência artificial a partir do documento e das informações que você envia. Ele é uma avaliação preliminar e pode conter imprecisões, especialmente se a imagem estiver ilegível ou incompleta. O diagnóstico não obriga você a contratar nada.</p>
+
+  <h2>3. Serviço contratado</h2>
+  <p>Ao contratar um plano, você recebe a peça de defesa ou recurso revisada por um especialista, pronta para assinatura, e as instruções para protocolar no órgão competente. O prazo de entrega é de até 24 horas úteis após a confirmação do pagamento e o envio das informações pendentes solicitadas.</p>
+  <p>Você é responsável por: fornecer informações verdadeiras; enviar os documentos solicitados; assinar e protocolar a defesa dentro do prazo legal (salvo se contratar o protocolo conosco, quando disponível). Não nos responsabilizamos por prazos perdidos por informações incorretas, documentos não enviados ou pela contratação feita com prazo insuficiente.</p>
+
+  <h2>4. Sem garantia de resultado</h2>
+  <p>A decisão sobre defesas e recursos é exclusiva do órgão de trânsito e das juntas de julgamento. <b>Não garantimos o cancelamento da multa, dos pontos ou da suspensão.</b> Nosso compromisso é entregar uma defesa técnica, fundamentada na legislação vigente e nos vícios efetivamente identificados no seu caso.</p>
+
+  <h2>5. Reembolso</h2>
+  <p>Se, após a revisão do especialista, concluirmos que não há defesa possível para o seu caso, devolvemos 100% do valor pago. Você também pode desistir em até 7 dias da contratação (art. 49 do Código de Defesa do Consumidor), com reembolso integral, desde que a defesa ainda não tenha sido entregue.</p>
+
+  <h2>6. Pagamento</h2>
+  <p>Os preços são fixos e informados antes da contratação. O pagamento é processado por intermediadores de pagamento; não armazenamos dados de cartão.</p>
+
+  <h2>7. Privacidade</h2>
+  <p>O tratamento dos seus dados pessoais segue a nossa <a href="privacidade.html">Política de Privacidade</a> e a Lei Geral de Proteção de Dados (Lei 13.709/2018).</p>
+
+  <h2>8. Contato e foro</h2>
+  <p>Dúvidas: <span class="emp-email">[e-mail]</span>. Fica eleito o foro do domicílio do consumidor.</p>
+</div></main>
+<footer class="rodape"><div class="wrap"><p><a href="index.html">Voltar ao início</a> · <a href="privacidade.html">Política de privacidade</a></p></div></footer>
+<script>
+  (function () {
+    var e = (window.RECORRA_CONFIG || {}).empresa || {};
+    function set(cls, v) { document.querySelectorAll(cls).forEach(function (el) { if (v) el.textContent = v; }); }
+    set(".emp-nome", e.razaoSocial); set(".emp-cnpj", e.cnpj ? "CNPJ " + e.cnpj : ""); set(".emp-email", e.email);
+  })();
+</script>
+</body>
+</html>
