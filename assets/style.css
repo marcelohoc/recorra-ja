@@ -223,3 +223,21 @@ details p { color: var(--muted); margin: 10px 0 0; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Entrega da defesa */
+.acoes-defesa { display: grid; gap: 10px; margin-top: 14px; }
+.folha { background: #fff; color: #111; margin: 18px 0; padding: 28px 24px; border-radius: 6px; box-shadow: var(--sombra);
+  font-family: Georgia, "Times New Roman", serif; font-size: 15px; line-height: 1.7; white-space: pre-wrap; word-wrap: break-word; }
+.guia h2 { font-size: 1.3rem; }
+.guia h3 { margin-top: 1.2em; }
+.passos-guia { padding-left: 20px; }
+.passos-guia li { margin-bottom: 10px; }
+@media (min-width: 720px) { .acoes-defesa { grid-template-columns: 1fr 1fr; } .folha { padding: 56px 64px; } }
+@media print {
+  @page { size: A4; margin: 22mm 20mm; }
+  body { background: #fff !important; }
+  .nao-imprimir, .topo, .rodape, .whats-flutuante { display: none !important; }
+  .analisar { padding: 0 !important; background: #fff !important; min-height: 0 !important; }
+  .wrap { max-width: none !important; padding: 0 !important; }
+  .folha { box-shadow: none !important; margin: 0 !important; padding: 0 !important; font-size: 12pt; line-height: 1.6; }
+}

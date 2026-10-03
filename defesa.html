@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Sua defesa — Recorra Já</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="config.js"></script>
+</head>
+<body data-pagina="defesa">
+<header class="topo nao-imprimir"><div class="wrap topo-in"><a class="logo" href="index.html"><span>Recorra Já</span></a></div></header>
+
+<main class="analisar" style="min-height:80vh">
+  <div class="wrap estreito">
+
+    <div id="estado-carregando" class="carregando nao-imprimir">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2 id="carregando-titulo">Carregando sua defesa…</h2>
+      <p class="muted" id="carregando-texto"></p>
+    </div>
+
+    <div id="estado-erro" class="resultado nao-imprimir" hidden>
+      <h2>Defesa não disponível</h2>
+      <p id="erro-texto">Confira se o link está completo. Ele chegou no seu e-mail.</p>
+    </div>
+
+    <div id="estado-pronta" hidden>
+      <div class="resultado nao-imprimir">
+        <div class="res-topo"><h2>Sua defesa está pronta</h2><span class="res-pedido">Pedido <span class="num-pedido"></span></span></div>
+        <div class="prazo-box urgente" id="prazo-box" hidden><div><b>Protocole até <span id="prazo-data"></span></b><br><small id="prazo-dias"></small></div></div>
+        <div class="acoes-defesa">
+          <button class="btn btn-lg btn-bloco" id="imprimir">Imprimir ou salvar em PDF</button>
+          <button class="btn btn-sec btn-bloco" id="copiar">Copiar o texto</button>
+        </div>
+        <p class="nota">No celular: toque em "Imprimir ou salvar em PDF" e escolha "Salvar como PDF". Para assinar digitalmente, use o assinador gratuito do gov.br.</p>
+      </div>
+
+      <article class="folha" id="folha"></article>
+
+      <section class="resultado guia nao-imprimir" id="guia"></section>
+    </div>
+
+  </div>
+</main>
+
+<footer class="rodape nao-imprimir"><div class="wrap"><p><a href="termos.html">Termos de uso</a> · <a href="privacidade.html">Política de privacidade</a></p></div></footer>
+<script src="assets/pedido.js"></script>
+</body>
+</html>

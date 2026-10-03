@@ -194,36 +194,61 @@
     var dados = coletar();
     if (!arquivoProcessado) return mostrarErro("Envie a foto ou o PDF da notificação.");
     if (soDigitos(dados.whatsapp).length < 10) return mostrarErro("Informe seu WhatsApp com DDD.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(dados.email)) return mostrarErro("Informe seu e-mail: é por ele que você recebe a defesa.");
     if (!dados.consentimento) return mostrarErro("Para continuar, aceite os termos e a política de privacidade.");
     mostrarErro("");
     pixel("Lead");
 
-    if (!C.webhookUrl) return semIA(dados, null);
+    if (!C.n8nBase) return semIA(dados, null);
 
     dados.arquivo = { media_type: arquivoProcessado.media_type, data: arquivoProcessado.data };
     $("enviar").disabled = true;
     painel("painel-carregando");
     animarEtapas();
 
-    var ctrl = new AbortController();
-    var t = setTimeout(function () { ctrl.abort(); }, TIMEOUT_MS);
-    fetch(C.webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dados),
-      signal: ctrl.signal
-    })
+    // 1) Envia e recebe o código do pedido na hora; 2) acompanha o status até o diagnóstico ficar pronto.
+    // text/plain evita o preflight de CORS; o n8n aceita o corpo em texto.
+    fetch(C.n8nBase + "/recorra-ja/diagnostico", { method: "POST", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: JSON.stringify(dados) })
       .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
       .then(function (res) {
-        if (res && res.ok && res.diagnostico) { guardar("rj_ultimo", res); mostrarResultado(res, dados); }
-        else semIA(dados, res && res.erro, res && res.pedido);
+        if (!res || !res.ok) { pararEtapas(); return semIA(dados, res && res.erro); }
+        guardar("rj_pedido", { p: res.pedido, t: res.token });
+        acompanhar(res.pedido, res.token, dados);
       })
-      .catch(function () { semIA(dados, null); })
-      .finally(function () { clearTimeout(t); clearInterval(timerEtapas); $("enviar").disabled = false; });
+      .catch(function (err) { pararEtapas(); semIA(dados, null, null, err && err.message); });
   });
 
+  function pararEtapas() { clearInterval(timerEtapas); $("enviar").disabled = false; }
+
+  // Consulta o pedido a cada 4s até sair o diagnóstico (no máximo ~6 min)
+  function acompanhar(p, t, dados) {
+    var tentativas = 0;
+    (function consultar() {
+      tentativas++;
+      fetch(C.n8nBase + "/recorra-ja/pedido?p=" + encodeURIComponent(p) + "&t=" + encodeURIComponent(t))
+        .then(function (r) { return r.json(); })
+        .then(function (v) {
+          if (v && v.ok && v.status !== "analisando") {
+            pararEtapas();
+            if (v.status === "falha_ia") return semIA(dados || {}, v.erro, v.pedido);
+            if (v.diagnostico) return mostrarResultado(v, dados || {});
+          }
+          if (tentativas < 90) setTimeout(consultar, 4000);
+          else { pararEtapas(); semIA(dados || {}, "Sua análise está demorando mais que o normal. Vamos te enviar o resultado por e-mail.", p); }
+        })
+        .catch(function () { if (tentativas < 90) setTimeout(consultar, 5000); });
+    })();
+  }
+
+  // Voltou do pagamento recusado (ou abriu o link de novo): reabre o diagnóstico
+  (function () {
+    var q = new URLSearchParams(location.search);
+    if (q.get("p") && q.get("t") && C.n8nBase) { painel("painel-carregando"); animarEtapas(); acompanhar(q.get("p"), q.get("t"), null); }
+  })();
+
   // Quando a análise automática não está disponível, o pedido segue pelo WhatsApp.
-  function semIA(dados, erro, pedido) {
+  function semIA(dados, erro, pedido, tecnico) {
+    if (tecnico && window.console) console.error("[Recorra Já]", tecnico);
     var msg = "Olá! Quero uma análise da minha multa." + (pedido ? " Pedido " + pedido + "." : "") +
       "\nNome: " + (dados.nome || "-") + "\nEstado: " + (dados.uf || "-") +
       (dados.cnh_provisoria ? "\nCNH provisória: sim" : "") + (dados.relato ? "\nO que aconteceu: " + dados.relato : "") +
@@ -296,20 +321,20 @@
 
     // Oferta
     var semPontos = !pts.length;
-    var pagar = (C.pagamento || {})[pl.id];
-    var refLink = pagar ? pagar + (pagar.indexOf("?") >= 0 ? "&" : "?") + "ref=" + encodeURIComponent(res.pedido) : null;
+    // Link do Mercado Pago criado para este pedido; abre na mesma aba para o retorno cair na página de dados
+    var refLink = res.pagamento_url || null;
     var msgW = "Olá! Quero contratar a " + pl.nome + " (" + reais(pl.preco) + "). Meu pedido é " + res.pedido + ".";
     var w = linkWhats(msgW);
     html += '<div class="oferta"><div><b>' + esc(pl.nome) + '</b></div><div class="preco">' + esc(reais(pl.preco)) + "</div>" +
-      "<p class=\"muted\">Defesa completa revisada por especialista, pronta para assinar, com o passo a passo para protocolar. Entrega em até 24h úteis." +
+      "<p class=\"muted\">Defesa completa com os seus dados, pronta para assinar, mais o passo a passo de onde e como protocolar. Na maioria dos casos fica pronta em minutos; casos com risco à CNH passam por um especialista (até 24h úteis). Pix ou cartão." +
       (semPontos ? " <b>Como não encontramos vício formal, a defesa será de mérito; fale com a gente antes de contratar.</b>" : "") + "</p>" +
       '<div class="acoes">' +
-      (refLink && !semPontos ? '<a class="btn btn-lg btn-bloco" id="btn-pagar" href="' + esc(refLink) + '" target="_blank" rel="noopener">Quero minha defesa</a>' : "") +
+      (refLink && !semPontos ? '<a class="btn btn-lg btn-bloco" id="btn-pagar" href="' + esc(refLink) + '">Quero minha defesa</a>' : "") +
       (w ? '<a class="btn ' + (refLink && !semPontos ? "btn-sec" : "btn-whats btn-lg") + ' btn-bloco" id="btn-whats" href="' + esc(w) + '" target="_blank" rel="noopener">' + (refLink && !semPontos ? "Tirar dúvidas por " + CANAL : "Contratar por " + CANAL) + "</a>" : "") +
       (!refLink && !w ? '<p>Um especialista vai te chamar no WhatsApp ' + esc(dados.whatsapp) + " para finalizar.</p>" : "") +
       "</div></div>";
 
-    html += '<p class="nota">Diagnóstico gerado por inteligência artificial com base no Código de Trânsito Brasileiro e revisado por especialista antes da entrega da defesa. Não é garantia de resultado.</p></div>';
+    html += '<p class="nota">Diagnóstico gerado por inteligência artificial com base no Código de Trânsito Brasileiro. Casos graves ou com dúvida são revisados por especialista antes da entrega. Não é garantia de resultado.</p></div>';
 
     $("painel-resultado").innerHTML = html;
     painel("painel-resultado");

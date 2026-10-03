@@ -2,24 +2,15 @@
 window.RECORRA_CONFIG = {
   marca: "Recorra Já",
 
-  // URL do webhook de produção do n8n (workflow "Recorra Já — Diagnóstico de multa com IA").
-  // Vazio = o formulário manda o pedido direto para o WhatsApp (modo sem IA).
-  // TESTE: URL de teste do n8n (só responde com o editor em "Listen for test event").
-  // Depois de ativar o workflow, volte para https://n8n.olimpoit.com.br/webhook/recorra-ja/diagnostico
-  webhookUrl: "https://n8n.olimpoit.com.br/webhook-test/recorra-ja/diagnostico",
+  // Base dos webhooks do n8n (workflows "Recorra Já 1 a 5" ativos).
+  // Os endpoints usados são: /recorra-ja/diagnostico, /recorra-ja/pedido e /recorra-ja/dados.
+  // Vazio = o formulário manda o pedido direto para o contato (modo sem IA).
+  n8nBase: "https://n8n.olimpoit.com.br/webhook",
 
-  // WhatsApp de atendimento, só números com DDI e DDD (ex.: 5511999998888).
+  // WhatsApp de atendimento, só números com DDI e DDD (ex.: 5511999998888). Vazio = contato por e-mail.
   whatsapp: "",
 
-  // Links de pagamento por plano (Mercado Pago, Kiwify, Asaas, Stripe...).
-  // O site acrescenta ?ref=CODIGO_DO_PEDIDO ao link. Vazio = fechamento pelo WhatsApp com Pix.
-  pagamento: {
-    simples: "",
-    gravissima: "",
-    suspensao: ""
-  },
-
-  // Preços exibidos na página (os preços cobrados vêm do backend em planos.json — mantenha iguais).
+  // Preços exibidos na página (o valor cobrado vem do backend em planos.json — mantenha iguais).
   planos: {
     simples: { nome: "Defesa Simples", preco: 67, descricao: "Infrações leves, médias e graves sem risco à CNH." },
     gravissima: { nome: "Gravíssima / CNH Provisória", preco: 197, descricao: "Gravíssimas ou qualquer multa com CNH provisória." },

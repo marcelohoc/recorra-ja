@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Complete seus dados — Recorra Já</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="config.js"></script>
+</head>
+<body data-pagina="dados">
+<header class="topo"><div class="wrap topo-in"><a class="logo" href="index.html"><span>Recorra Já</span></a></div></header>
+
+<main class="analisar" style="min-height:80vh">
+  <div class="wrap estreito">
+
+    <div id="estado-carregando" class="carregando">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2 id="carregando-titulo">Carregando seu pedido…</h2>
+      <p class="muted" id="carregando-texto"></p>
+    </div>
+
+    <div id="estado-erro" class="resultado" hidden>
+      <h2>Não encontramos este pedido</h2>
+      <p id="erro-texto">Confira se o link está completo. Ele chegou no seu e-mail após o pagamento.</p>
+    </div>
+
+    <div id="estado-revisao" class="resultado" hidden>
+      <h2>Recebemos seus dados ✔</h2>
+      <p>Seu caso precisa de um olhar de especialista antes da entrega. Você recebe a defesa e o passo a passo <b>por e-mail em até 24 horas úteis</b> (antes, se o prazo estiver perto do fim).</p>
+      <p class="nota">Pedido <span class="num-pedido"></span></p>
+    </div>
+
+    <form id="form-dados" class="resultado" novalidate hidden>
+      <div class="res-topo"><h2>Falta pouco!</h2><span class="res-pedido">Pedido <span class="num-pedido"></span></span></div>
+      <p>Pagamento confirmado. Estes dados vão na sua defesa, que você assina e protocola.</p>
+      <div class="dados-multa" id="resumo-multa"></div>
+
+      <div class="campos">
+        <label>Nome completo<input id="nome_completo" autocomplete="name" required></label>
+        <label>CPF<input id="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" required></label>
+        <label>Nº de registro da CNH<input id="cnh" inputmode="numeric" placeholder="está na CNH, campo Nº REGISTRO" required></label>
+        <label>CEP<input id="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" required></label>
+      </div>
+      <label>Endereço (rua, número, complemento, bairro)<input id="endereco" autocomplete="street-address" required></label>
+      <div class="campos">
+        <label>Cidade<input id="cidade" autocomplete="address-level2" required></label>
+        <label>UF<input id="uf" maxlength="2" autocomplete="address-level1" placeholder="SP" required></label>
+      </div>
+
+      <fieldset class="opcoes">
+        <legend>Sobre a infração</legend>
+        <div class="radio-linha">
+          <span>Quem estava dirigindo?</span>
+          <label><input type="radio" name="condutor" value="eu" checked> Eu</label>
+          <label><input type="radio" name="condutor" value="outra_pessoa"> Outra pessoa</label>
+        </div>
+        <div class="radio-linha">
+          <span>Teve outra multa nos últimos 12 meses?</span>
+          <label><input type="radio" name="outra" value="não"> Não</label>
+          <label><input type="radio" name="outra" value="sim"> Sim</label>
+          <label><input type="radio" name="outra" value="não sei" checked> Não sei</label>
+        </div>
+      </fieldset>
+
+      <div id="perguntas"></div>
+
+      <label class="chk consent"><input type="checkbox" id="declaracao" required> Declaro que as informações acima são verdadeiras.</label>
+      <p class="erro" id="erro" role="alert" hidden></p>
+      <button class="btn btn-lg btn-bloco" type="submit" id="enviar">Gerar minha defesa</button>
+    </form>
+
+  </div>
+</main>
+
+<footer class="rodape"><div class="wrap"><p><a href="termos.html">Termos de uso</a> · <a href="privacidade.html">Política de privacidade</a></p></div></footer>
+<script src="assets/pedido.js"></script>
+</body>
+</html>
