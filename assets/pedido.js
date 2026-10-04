@@ -85,7 +85,8 @@
       var msg = [];
       if ($("nome_completo").value.trim().split(/\s+/).length < 2) msg.push("Informe seu nome completo.");
       if (digitos(cpf.value).length !== 11) msg.push("CPF incompleto.");
-      if (digitos($("cnh").value).length < 9) msg.push("Informe o número de registro da CNH.");
+      var cnh = digitos($("cnh").value);
+      if (cnh.length < 9 || cnh.length > 11 || /^(\d)\1+$/.test(cnh)) msg.push("Confira o número de registro da CNH (9 a 11 dígitos, campo Nº REGISTRO).");
       if (digitos(cep.value).length !== 8) msg.push("CEP incompleto.");
       if ($("endereco").value.trim().length < 8) msg.push("Informe o endereço completo.");
       if (!$("cidade").value.trim() || $("uf").value.trim().length !== 2) msg.push("Informe cidade e UF.");

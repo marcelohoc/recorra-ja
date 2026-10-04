@@ -89,7 +89,10 @@
   var arquivoProcessado = null; // { media_type, data(base64), nome }
 
   $("whatsapp").addEventListener("input", function (e) {
-    var d = soDigitos(e.target.value).slice(0, 11), out = d;
+    var d = soDigitos(e.target.value);
+    if (d.length > 11 && d.indexOf("55") === 0) d = d.slice(2); // aceita +55 colado ou digitado
+    d = d.slice(0, 11);
+    var out = d;
     if (d.length > 2) out = "(" + d.slice(0, 2) + ") " + d.slice(2);
     if (d.length > 7) out = "(" + d.slice(0, 2) + ") " + d.slice(2, d.length - 4) + "-" + d.slice(-4);
     e.target.value = out;
@@ -316,6 +319,21 @@
     if ((d.pendencias || []).length) {
       html += '<div class="pendencias"><b>Para fortalecer sua defesa, vamos precisar de:</b><ul>' +
         d.pendencias.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") + "</ul></div>";
+    }
+
+    // Prazo impresso já vencido: não vendemos a defesa (recurso fora do prazo quase nunca é aceito)
+    if (d.bloqueio === "prazo_vencido") {
+      var wv = linkWhats("Olá! Meu diagnóstico " + res.pedido + " indicou prazo vencido, mas acho que não recebi a notificação a tempo.");
+      html += '<div class="oferta"><h3>O prazo desta notificação já venceu</h3>' +
+        "<p>O prazo indicado na sua notificação terminou em <b>" + esc(dataBR(pz.data)) + "</b>. " +
+        "Defesa ou recurso fora do prazo quase nunca é aceito pelo órgão de trânsito, por isso <b>não vamos te cobrar</b> por uma defesa.</p>" +
+        "<p>Se você <b>não recebeu a notificação</b> a tempo, ou se chegou depois do prazo impresso, pode haver outro caminho. Fale com a gente.</p>" +
+        (wv ? '<div class="acoes"><a class="btn btn-whats btn-lg btn-bloco" id="btn-whats" href="' + esc(wv) + '" target="_blank" rel="noopener">Falar com a gente por ' + CANAL + "</a></div>" : "") +
+        "</div>";
+      html += '<p class="nota">Diagnóstico gerado por inteligência artificial com base no Código de Trânsito Brasileiro. Não é consultoria jurídica.</p></div>';
+      $("painel-resultado").innerHTML = html;
+      painel("painel-resultado");
+      return;
     }
 
     // Prévia bloqueada
