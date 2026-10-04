@@ -15,13 +15,13 @@ window.RECORRA_CONFIG = {
   n8nBase: "https://n8n.olimpoit.com.br/webhook",
 
   // WhatsApp de atendimento, só números com DDI e DDD (ex.: 5511999998888). Vazio = contato por e-mail.
-  whatsapp: "",
+  whatsapp: "5511970774334",
 
   // Preços exibidos na página (o valor cobrado vem do backend em planos.json — mantenha iguais).
   planos: {
-    simples: { nome: "Defesa Simples", preco: 67, descricao: "Infrações leves, médias e graves sem risco à CNH." },
-    gravissima: { nome: "Gravíssima / CNH Provisória", preco: 197, descricao: "Gravíssimas ou qualquer multa com CNH provisória." },
-    suspensao: { nome: "Contra Suspensão da CNH", preco: 397, descricao: "Lei Seca, recusa ao bafômetro, velocidade +50%, pontos." }
+    simples: { nome: "Defesa Simples", preco: 49.90, descricao: "Infrações leves, médias e graves sem risco à CNH." },
+    gravissima: { nome: "Gravíssima / CNH Provisória", preco: 97, descricao: "Gravíssimas ou qualquer multa com CNH provisória." },
+    suspensao: { nome: "Contra Suspensão da CNH", preco: 197, descricao: "Lei Seca, recusa ao bafômetro, velocidade +50%, pontos." }
   },
 
   // Meta Pixel (opcional). Vazio = desativado.
@@ -29,8 +29,8 @@ window.RECORRA_CONFIG = {
 
   // Dados do responsável, exibidos no rodapé e nos termos.
   empresa: {
-    razaoSocial: "",
-    cnpj: "",
-    email: "marcelohoc@gmail.com"
+    razaoSocial: "OlimpoIT",
+    cnpj: "61.824.551/0001-64",
+    email: "contato@olimpoit.com.br"
   }
 };

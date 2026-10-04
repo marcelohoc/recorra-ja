@@ -13,7 +13,7 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
-  function reais(v) { return "R$ " + Number(v).toLocaleString("pt-BR", { minimumFractionDigits: 0 }); }
+  function reais(v) { var n = Number(v); return "R$ " + n.toLocaleString("pt-BR", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); }
   function soDigitos(s) { return String(s || "").replace(/\D/g, ""); }
   // Sem WhatsApp configurado, o contato cai no e-mail para nenhum lead se perder.
   var CANAL = C.whatsapp ? "WhatsApp" : "e-mail";
