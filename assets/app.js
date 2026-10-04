@@ -270,6 +270,10 @@
     var html = '<div class="resultado">';
 
     html += '<div class="res-topo"><h2>Seu diagnóstico</h2><span class="res-pedido">Pedido ' + esc(res.pedido) + "</span></div>";
+    // Voltou do Mercado Pago sem concluir o pagamento
+    if (new URLSearchParams(location.search).get("pagamento") === "falhou" && res.pagamento_url) {
+      html += '<div class="alerta">O pagamento não foi concluído. Nada foi cobrado. Você pode tentar de novo com outro cartão ou por Pix no botão abaixo.</div>';
+    }
 
     if (!d.documento_valido) {
       html += '<div class="alerta">' + esc(d.resumo_para_cliente) + "</div>" +
