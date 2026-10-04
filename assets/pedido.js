@@ -32,6 +32,20 @@
     })();
   }
 
+  // Meta Pixel (opcional): carregado só se configurado
+  if (C.metaPixelId) {
+    !function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = "2.0"; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s) }(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+    window.fbq("init", C.metaPixelId);
+    window.fbq("track", "PageView");
+  }
+  // Compra confirmada: avisa a Meta uma única vez por pedido (eventID evita contar duas vezes)
+  function registrarCompra(v) {
+    if (!window.fbq || !v || !v.plano) return;
+    var chave = "rj_compra_" + P;
+    try { if (localStorage.getItem(chave)) return; localStorage.setItem(chave, "1"); } catch (e) {}
+    try { window.fbq("track", "Purchase", { value: Number(v.plano.preco), currency: "BRL", content_name: v.plano.nome }, { eventID: P }); } catch (e) {}
+  }
+
   if (!P || !T || !C.n8nBase) return erro();
 
   // ---------------- dados.html ----------------
@@ -44,6 +58,7 @@
         erro("Ainda não recebemos a confirmação do pagamento. Assim que ele for aprovado, você recebe por e-mail o link para continuar.");
       });
     }
+    if (["pago", "processando", "em_revisao", "entregue"].indexOf(v.status) >= 0) registrarCompra(v);
     if (v.status === "pago") return mostrarForm(v);
     if (v.status === "processando") {
       carregando("Montando sua defesa…", "Estamos preenchendo a peça com seus dados e preparando o passo a passo. Leva cerca de 1 a 2 minutos.");
