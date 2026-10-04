@@ -1,4 +1,11 @@
 // Configuração do site. Tudo o que muda sem mexer no código fica aqui.
+
+// O endereço oficial é recorraja.olimpoit.com.br; o espelho antigo do GitHub Pages redireciona para lá
+// mantendo a página e os parâmetros (links de pedidos já enviados continuam funcionando).
+if (/\.github\.io$/.test(location.hostname)) {
+  location.replace("https://recorraja.olimpoit.com.br" + location.pathname.replace(/^\/recorra-ja/, "") + location.search + location.hash);
+}
+
 window.RECORRA_CONFIG = {
   marca: "Recorra Já",
 
