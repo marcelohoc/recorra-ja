@@ -125,7 +125,7 @@
       if (!v || !v.ok) return erro(v && v.erro);
       if (v.status !== "entregue") {
         if (v.status === "pago" || v.status === "processando") { location.href = "dados.html?p=" + encodeURIComponent(P) + "&t=" + encodeURIComponent(T); return; }
-        return erro(v.status === "em_revisao" ? "Sua defesa está com um especialista. Você recebe por e-mail em até 24 horas úteis." : "Esta defesa ainda não está disponível.");
+        return erro(v.status === "em_revisao" ? "Sua defesa está em conferência pela nossa equipe. Você recebe por e-mail em até 24 horas úteis." : "Esta defesa ainda não está disponível.");
       }
       $("folha").textContent = v.defesa_final || "";
       var g = v.guia || {};

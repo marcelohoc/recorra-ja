@@ -51,14 +51,13 @@
   var lista = $("lista-planos");
   if (lista && C.planos) {
     var extras = {
-      simples: ["Defesa prévia ou recurso à JARI", "Pedido de advertência quando cabível", "Passo a passo para protocolar"],
-      gravissima: ["Tudo do plano Simples", "Estratégia para proteger a CNH provisória", "Acompanhamento até a 2ª instância"],
-      suspensao: ["Defesa no processo de suspensão", "Uso do efeito suspensivo (art. 285)", "Recursos à JARI e ao CETRAN"]
+      simples: ["Defesa prévia ou recurso, conforme a fase da sua notificação", "Pedido de advertência por escrito quando cabível", "Guia de onde e como protocolar"],
+      gravissima: ["Tudo do plano Simples", "Para infrações gravíssimas e CNH provisória", "Conferência manual antes da entrega"],
+      suspensao: ["Defesa no processo de suspensão ou em infração que suspende a CNH", "Pedido de efeito suspensivo quando for recurso (art. 285)", "Conferência manual antes da entrega"]
     };
     lista.innerHTML = ["simples", "gravissima", "suspensao"].map(function (id) {
       var p = C.planos[id]; if (!p) return "";
       return '<article class="plano' + (id === "gravissima" ? " popular" : "") + '">' +
-        (id === "gravissima" ? '<span class="tag">Mais pedido</span>' : "") +
         "<h3>" + esc(p.nome) + "</h3>" +
         '<div class="preco">' + esc(reais(p.preco)) + " <small>à vista</small></div>" +
         "<p>" + esc(p.descricao) + "</p>" +
@@ -257,9 +256,9 @@
     $("painel-resultado").innerHTML = '<div class="resultado">' +
       "<h2>Recebemos seu pedido</h2>" +
       "<p>" + esc(erro || "Nossa análise automática está com muita demanda agora.") + "</p>" +
-      (w ? "<p>Para não perder seu prazo, envie a foto da notificação por " + CANAL + " e um especialista faz sua análise grátis.</p>" +
+      (w ? "<p>Para não perder seu prazo, envie a foto da notificação por " + CANAL + " e nossa equipe faz sua análise grátis.</p>" +
         '<a class="btn btn-whats btn-lg btn-bloco" target="_blank" rel="noopener" href="' + esc(w) + '">Enviar por ' + CANAL + '</a>'
-        : '<p>Um especialista vai te chamar no WhatsApp informado.</p>') +
+        : '<p>Nossa equipe vai te chamar no WhatsApp informado.</p>') +
       '<p class="nota"><a href="#" id="tentar-de-novo">Tentar a análise automática de novo</a></p></div>';
     painel("painel-resultado");
     var again = $("tentar-de-novo");
@@ -326,15 +325,15 @@
     var msgW = "Olá! Quero contratar a " + pl.nome + " (" + reais(pl.preco) + "). Meu pedido é " + res.pedido + ".";
     var w = linkWhats(msgW);
     html += '<div class="oferta"><div><b>' + esc(pl.nome) + '</b></div><div class="preco">' + esc(reais(pl.preco)) + "</div>" +
-      "<p class=\"muted\">Defesa completa com os seus dados, pronta para assinar, mais o passo a passo de onde e como protocolar. Na maioria dos casos fica pronta em minutos; casos com risco à CNH passam por um especialista (até 24h úteis). Pix ou cartão." +
+      "<p class=\"muted\">Defesa completa com os seus dados, pronta para assinar, mais o passo a passo de onde e como protocolar. Na maioria dos casos fica pronta em minutos; casos com risco à CNH passam por conferência manual da nossa equipe (até 24h úteis). Pix ou cartão." +
       (semPontos ? " <b>Como não encontramos vício formal, a defesa será de mérito; fale com a gente antes de contratar.</b>" : "") + "</p>" +
       '<div class="acoes">' +
       (refLink && !semPontos ? '<a class="btn btn-lg btn-bloco" id="btn-pagar" href="' + esc(refLink) + '">Quero minha defesa</a>' : "") +
       (w ? '<a class="btn ' + (refLink && !semPontos ? "btn-sec" : "btn-whats btn-lg") + ' btn-bloco" id="btn-whats" href="' + esc(w) + '" target="_blank" rel="noopener">' + (refLink && !semPontos ? "Tirar dúvidas por " + CANAL : "Contratar por " + CANAL) + "</a>" : "") +
-      (!refLink && !w ? '<p>Um especialista vai te chamar no WhatsApp ' + esc(dados.whatsapp) + " para finalizar.</p>" : "") +
+      (!refLink && !w ? '<p>Nossa equipe vai te chamar no WhatsApp ' + esc(dados.whatsapp) + " para finalizar.</p>" : "") +
       "</div></div>";
 
-    html += '<p class="nota">Diagnóstico gerado por inteligência artificial com base no Código de Trânsito Brasileiro. Casos graves ou com dúvida são revisados por especialista antes da entrega. Não é garantia de resultado.</p></div>';
+    html += '<p class="nota">Diagnóstico gerado por inteligência artificial com base no Código de Trânsito Brasileiro. Casos graves ou com dúvida passam por conferência manual antes da entrega. Não é consultoria jurídica nem garantia de resultado.</p></div>';
 
     $("painel-resultado").innerHTML = html;
     painel("painel-resultado");
