@@ -38,12 +38,33 @@
     window.fbq("init", C.metaPixelId);
     window.fbq("track", "PageView");
   }
-  // Compra confirmada: avisa a Meta uma única vez por pedido (eventID evita contar duas vezes)
+  // Google Ads (opcional): carregado só se configurado
+  var GA = C.googleAds || {};
+  if (GA.id) {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    var sg = document.createElement("script"); sg.async = true;
+    sg.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA.id);
+    document.head.appendChild(sg);
+    window.gtag("js", new Date());
+    window.gtag("config", GA.id);
+  }
+  function conversaoGoogle(rotulo, dados) {
+    try {
+      if (!GA.id || !rotulo || !window.gtag) return;
+      var p = dados || {}; p.send_to = GA.id + "/" + rotulo;
+      window.gtag("event", "conversion", p);
+    } catch (e) {}
+  }
+  // Compra confirmada: avisa a Meta e o Google Ads uma única vez por pedido
+  // (eventID e transaction_id evitam contar duas vezes)
   function registrarCompra(v) {
-    if (!window.fbq || !v || !v.plano) return;
+    if (!v || !v.plano) return;
+    if (!window.fbq && !(GA.id && GA.conversaoCompra)) return;
     var chave = "rj_compra_" + P;
     try { if (localStorage.getItem(chave)) return; localStorage.setItem(chave, "1"); } catch (e) {}
-    try { window.fbq("track", "Purchase", { value: Number(v.plano.preco), currency: "BRL", content_name: v.plano.nome }, { eventID: P }); } catch (e) {}
+    try { if (window.fbq) window.fbq("track", "Purchase", { value: Number(v.plano.preco), currency: "BRL", content_name: v.plano.nome }, { eventID: P }); } catch (e) {}
+    conversaoGoogle(GA.conversaoCompra, { value: Number(v.plano.preco), currency: "BRL", transaction_id: P });
   }
 
   if (!P || !T || !C.n8nBase) return erro();
