@@ -52,8 +52,8 @@
   if (lista && C.planos) {
     var extras = {
       simples: ["Defesa prévia ou recurso, conforme a fase da sua notificação", "Pedido de advertência por escrito quando cabível", "Guia de onde e como protocolar"],
-      gravissima: ["Tudo do plano Simples", "Para infrações gravíssimas e CNH provisória", "Conferência manual antes da entrega"],
-      suspensao: ["Defesa no processo de suspensão ou em infração que suspende a CNH", "Pedido de efeito suspensivo quando for recurso (art. 285)", "Conferência manual antes da entrega"]
+      gravissima: ["Tudo do plano Simples", "Para infrações gravíssimas e CNH provisória"],
+      suspensao: ["Defesa no processo de suspensão ou em infração que suspende a CNH", "Pedido de efeito suspensivo quando for recurso (art. 285)"]
     };
     lista.innerHTML = ["simples", "gravissima", "suspensao"].map(function (id) {
       var p = C.planos[id]; if (!p) return "";
@@ -347,7 +347,7 @@
     var msgW = "Olá! Quero contratar a " + pl.nome + " (" + reais(pl.preco) + "). Meu pedido é " + res.pedido + ".";
     var w = linkWhats(msgW);
     html += '<div class="oferta"><div><b>' + esc(pl.nome) + '</b></div><div class="preco">' + esc(reais(pl.preco)) + "</div>" +
-      "<p class=\"muted\">Defesa completa com os seus dados, pronta para assinar, mais o passo a passo de onde e como protocolar. Na maioria dos casos fica pronta em minutos; casos com risco à CNH passam por conferência manual da nossa equipe (até 24h úteis). Pix ou cartão." +
+      "<p class=\"muted\">Defesa completa com os seus dados, pronta para assinar, mais o passo a passo de onde e como protocolar. Na maioria dos casos fica pronta em minutos. Pix ou cartão." +
       (semPontos ? " <b>Como não encontramos vício formal, a defesa será de mérito; fale com a gente antes de contratar.</b>" : "") + "</p>" +
       '<div class="acoes">' +
       (refLink && !semPontos ? '<a class="btn btn-lg btn-bloco" id="btn-pagar" href="' + esc(refLink) + '">Quero minha defesa</a>' : "") +
@@ -355,7 +355,7 @@
       (!refLink && !w ? '<p>Nossa equipe vai te chamar no WhatsApp ' + esc(dados.whatsapp) + " para finalizar.</p>" : "") +
       "</div></div>";
 
-    html += '<p class="nota">Diagnóstico gerado por inteligência artificial com base no Código de Trânsito Brasileiro. Casos graves ou com dúvida passam por conferência manual antes da entrega. Não é consultoria jurídica nem garantia de resultado.</p></div>';
+    html += '<p class="nota">Diagnóstico gerado por inteligência artificial com base no Código de Trânsito Brasileiro. A defesa é gerada automaticamente, sem revisão humana: confira a peça antes de assinar e protocolar. Não é consultoria jurídica nem garantia de resultado.</p></div>';
 
     $("painel-resultado").innerHTML = html;
     painel("painel-resultado");
