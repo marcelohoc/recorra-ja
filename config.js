@@ -27,6 +27,13 @@ window.RECORRA_CONFIG = {
   // Meta Pixel (opcional). Vazio = desativado.
   metaPixelId: "",
 
+  // Google Ads (opcional). Vazio = desativado.
+  // id: o código da conta no formato "AW-123456789".
+  // conversaoCompra e conversaoLead: o rótulo de cada ação de conversão criada no Google Ads
+  // (a parte depois da barra em "AW-123456789/AbCdEfGhIj"). Compra = pagamento confirmado;
+  // Lead = pedido de análise grátis enviado.
+  googleAds: { id: "", conversaoCompra: "", conversaoLead: "" },
+
   // Dados do responsável, exibidos no rodapé e nos termos.
   empresa: {
     razaoSocial: "OlimpoIT",

@@ -47,6 +47,25 @@
     window.fbq("track", "PageView");
   }
 
+  // Google Ads (opcional): carregado só se configurado
+  var GA = C.googleAds || {};
+  if (GA.id) {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    var sg = document.createElement("script"); sg.async = true;
+    sg.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA.id);
+    document.head.appendChild(sg);
+    window.gtag("js", new Date());
+    window.gtag("config", GA.id);
+  }
+  function conversaoGoogle(rotulo, dados) {
+    try {
+      if (!GA.id || !rotulo || !window.gtag) return;
+      var p = dados || {}; p.send_to = GA.id + "/" + rotulo;
+      window.gtag("event", "conversion", p);
+    } catch (e) {}
+  }
+
   // ---------- Planos ----------
   var lista = $("lista-planos");
   if (lista && C.planos) {
@@ -200,6 +219,7 @@
     if (!dados.consentimento) return mostrarErro("Para continuar, aceite os termos e a política de privacidade.");
     mostrarErro("");
     pixel("Lead");
+    conversaoGoogle(GA.conversaoLead);
 
     if (!C.n8nBase) return semIA(dados, null);
 
